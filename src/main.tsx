@@ -4,7 +4,10 @@ import App from './App.tsx'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  /*Prueba de subida*/   <React.StrictMode>
+     <React.StrictMode>
     <App />
-  </React.StrictMode>,
+  </React.StrictMode>
+
+
+/* Testing privacy */
 )
