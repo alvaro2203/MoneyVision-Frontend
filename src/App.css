@@ -1,22 +1,4 @@
-/* Estilo del nav */
-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #333;
-  padding: 1rem;
-
-nav li {
-  margin-right: 1rem;
+#root {
+  margin: 0 auto;
+  text-align: center;
 }
-
-nav a {
-  color: white;
-  text-decoration: none;
-  font-size: 1.2rem;
-}
-
-nav a:hover {
-  text-decoration: underline;
-}
-
