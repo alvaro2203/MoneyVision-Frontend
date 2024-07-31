@@ -1,7 +1,9 @@
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import './App.css';
 import { COMPANY_NAME } from './conts/CONTS';
+import Login from './Login';
 
-function App() {
+function Home() {
   return (
     <div>
       <h1 className='text-4xl font-bold text-blue-700 mb-4'>
@@ -13,7 +15,6 @@ function App() {
           para ayudarte a mantener un control detallado de tus ingresos y
           gastos. Con una interfaz intuitiva y moderna, puedes:
         </h3>
-
         <ul className='list-disc pl-6 space-y-4 text-gray-300 text-left'>
           <li className='text-lg'>
             <p>
@@ -38,6 +39,27 @@ function App() {
         </ul>
       </section>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <nav>
+        <ul>
+          <li>
+            <Link to="/">Inicio</Link>
+          </li>
+          <li>
+            <Link to="/login">Login</Link>
+          </li>
+        </ul>
+      </nav>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </Router>
   );
 }
 
