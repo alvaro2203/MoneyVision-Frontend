@@ -1,4 +1,4 @@
-import { TYPE_OF_TRANSACTION_ENUM } from '../conts/CONTS';
+import { TYPE_OF_TRANSACTION_ENUM } from '../consts';
 import { Category } from './Category';
 import { User } from './User';
 

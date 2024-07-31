@@ -1,4 +1,4 @@
-import { COMPANY_NAME } from '../../conts/CONTS';
+import { COMPANY_NAME } from '../../consts';
 
 export default function Login() {
   return (
