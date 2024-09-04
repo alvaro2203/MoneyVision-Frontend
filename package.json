@@ -13,11 +13,13 @@
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.7.2",
     "dotenv": "^16.4.5",
+    "js-cookie": "^3.0.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.25.1"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^22.0.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
