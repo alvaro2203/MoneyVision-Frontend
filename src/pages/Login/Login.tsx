@@ -1,6 +1,10 @@
+import { useState } from 'react';
 import { COMPANY_NAME } from '../../consts';
 
 export default function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   return (
     <div className='bg-white dark:bg-zinc-900'>
       <div className='flex justify-center h-screen'>
@@ -50,6 +54,8 @@ export default function Login() {
                     type='email'
                     name='email'
                     id='email'
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
                     placeholder='example@example.com'
                     className='block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-zinc-950 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40'
                   />
@@ -75,6 +81,8 @@ export default function Login() {
                     type='password'
                     name='password'
                     id='password'
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
                     placeholder='Tu contraseña'
                     className='block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-zinc-950 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40'
                   />
