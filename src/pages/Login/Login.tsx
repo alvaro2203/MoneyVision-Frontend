@@ -1,9 +1,61 @@
 import { useState } from 'react';
 import { COMPANY_NAME } from '../../consts';
+import api from '../../api/axios';
+import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [cookies, setCookie] = useCookies(['access_token']);
+  const navigate = useNavigate();
+
+  const validateForm = () => {
+    if (!email || !password) {
+      setError('Por favor introduzca los datos')
+      return false;
+    }
+
+    if (!/\S+@\S+.\S+/.test(email)) {
+      setError('Por favor, ingresa un correo válido.');
+      return false;
+    }
+
+    setError(null)
+    return true;
+  }
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (!validateForm) return;
+    setLoading(true);
+    setError(null)
+
+    try {
+
+      const response = await api.post('/login',{email, password},{ withCredentials: true })
+
+      if (response.status === 200) {
+        console.log("Login correcto.");
+        setCookie('access_token', response.data.token, { path: '/' });
+        navigate('/')
+      } else {
+        setError("Error de autenticación." + response.data.message)
+
+      }
+
+    } catch (error: any) {
+      console.log(error);
+      setError("Error de autenticación.")
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  
 
   return (
     <div className='bg-white dark:bg-zinc-900'>
@@ -42,7 +94,10 @@ export default function Login() {
             </header>
 
             <section className='mt-8'>
-              <form>
+              <form onSubmit={handleSubmit}>
+                  {error && (
+                    <p className='mb-4 text-sm text-center text-red-500'>{error}</p>
+                  )}
                 <div>
                   <label
                     htmlFor='email'
@@ -89,8 +144,12 @@ export default function Login() {
                 </div>
 
                 <div className='mt-6'>
-                  <button className='w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50'>
-                    Iniciar Sesión
+                  <button className='w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50'
+                          disabled={loading}
+                               
+                  >
+                    {loading ? "Cargando..." : "Iniciar Sesión"}
+                    
                   </button>
                 </div>
               </form>
