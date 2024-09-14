@@ -1,6 +1,51 @@
+import { useState } from 'react';
 import { COMPANY_NAME } from '../../consts';
+import api from '../../api/axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  const validateForm = () => {
+    if (!email || !password) {
+      setError('Por favor introduzca los datos');
+      return false;
+    }
+
+    if (!/\S+@\S+.\S+/.test(email)) {
+      setError('Por favor, ingresa un correo válido.');
+      return false;
+    }
+
+    setError(null);
+    return true;
+  };
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (!validateForm) return;
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await api.post('/login', { email, password });
+
+      response.status === 200
+        ? navigate('/')
+        : setError('Error de autenticación.' + response.data.message);
+    } catch (error) {
+      setError('Error de autenticación.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className='bg-white dark:bg-zinc-900'>
       <div className='flex justify-center h-screen'>
@@ -38,7 +83,12 @@ export default function Login() {
             </header>
 
             <section className='mt-8'>
-              <form>
+              <form onSubmit={handleSubmit}>
+                {error && (
+                  <p className='mb-4 text-sm text-center text-red-500'>
+                    {error}
+                  </p>
+                )}
                 <div>
                   <label
                     htmlFor='email'
@@ -50,6 +100,8 @@ export default function Login() {
                     type='email'
                     name='email'
                     id='email'
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
                     placeholder='example@example.com'
                     className='block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-zinc-950 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40'
                   />
@@ -75,14 +127,19 @@ export default function Login() {
                     type='password'
                     name='password'
                     id='password'
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
                     placeholder='Tu contraseña'
                     className='block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-zinc-950 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40'
                   />
                 </div>
 
                 <div className='mt-6'>
-                  <button className='w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50'>
-                    Iniciar Sesión
+                  <button
+                    className='w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50'
+                    disabled={loading}
+                  >
+                    {loading ? 'Cargando...' : 'Iniciar Sesión'}
                   </button>
                 </div>
               </form>
