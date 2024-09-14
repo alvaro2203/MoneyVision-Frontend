@@ -1,17 +1,10 @@
-import { useCookies } from 'react-cookie';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
 
-interface PrivateRouteProps {
-  element: JSX.Element;
-}
+const PrivateRoute = () => {
+  const isAuthenticated = useAuth();
 
-const PrivateRoute = ({ element }: PrivateRouteProps) => {
-  const [cookies] = useCookies(['access_token']);
-  const token = cookies.access_token;
-
-  console.log("Token en PrivateRoute:", token); // Verifica si el token está presente
-
-  return token ? element : <Navigate to="/login" />;
+  return isAuthenticated ? <Outlet /> : <Navigate to={'/login'} />;
 };
 
 export default PrivateRoute;
