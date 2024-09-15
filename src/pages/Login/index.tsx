@@ -1,53 +1,21 @@
-import { useState } from 'react';
 import { COMPANY_NAME } from '../../consts';
-import api from '../../api/axios';
-import { useNavigate } from 'react-router-dom';
+import { Label } from '../../components/Label';
+import { Input } from '../../components/Input';
+import { useLoginLogic } from './logic';
 
 export default function Login() {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate();
-
-  const validateForm = () => {
-    if (!email || !password) {
-      setError('Por favor introduzca los datos');
-      return false;
-    }
-
-    if (!/\S+@\S+.\S+/.test(email)) {
-      setError('Por favor, ingresa un correo válido.');
-      return false;
-    }
-
-    setError(null);
-    return true;
-  };
-
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-
-    if (!validateForm) return;
-
-    setLoading(true);
-    setError(null);
-
-    try {
-      const response = await api.post('/login', { email, password });
-
-      response.status === 200
-        ? navigate('/')
-        : setError('Error de autenticación.' + response.data.message);
-    } catch (error) {
-      setError('Error de autenticación.');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const {
+    email,
+    password,
+    setEmail,
+    setPassword,
+    loading,
+    error,
+    handleSubmit,
+  } = useLoginLogic();
 
   return (
-    <div className='bg-white dark:bg-zinc-900'>
+    <div className='dark:bg-zinc-900'>
       <div className='flex justify-center h-screen'>
         <aside
           className='hidden bg-cover lg:block lg:w-2/3'
@@ -59,7 +27,7 @@ export default function Login() {
             <div className='text-left'>
               <h2 className='text-6xl font-bold text-white'>{COMPANY_NAME}</h2>
 
-              <p className='max-w-xl mt-3 text-gray-300'>
+              <p className='max-w-xl mt-3 text-white'>
                 Bienvenido a {COMPANY_NAME}, tu plataforma confiable para
                 gestionar y controlar tus finanzas personales. Aquí, puedes
                 realizar un seguimiento de tus gastos, planificar tu presupuesto
@@ -90,31 +58,20 @@ export default function Login() {
                   </p>
                 )}
                 <div>
-                  <label
-                    htmlFor='email'
-                    className='block mb-2 text-sm text-gray-600 dark:text-gray-200'
-                  >
-                    Dirección de Email
-                  </label>
-                  <input
+                  <Label htmlFor='email'>Dirección de Email</Label>
+                  <Input
                     type='email'
                     name='email'
                     id='email'
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
                     placeholder='example@example.com'
-                    className='block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-zinc-950 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40'
                   />
                 </div>
 
                 <div className='mt-6'>
                   <div className='flex justify-between mb-2'>
-                    <label
-                      htmlFor='password'
-                      className='text-sm text-gray-600 dark:text-gray-200'
-                    >
-                      Contraseña
-                    </label>
+                    <Label htmlFor='password'>Contraseña</Label>
                     <a
                       href='#'
                       className='text-sm text-gray-400 focus:text-blue-500 hover:text-blue-500 hover:underline'
@@ -123,14 +80,13 @@ export default function Login() {
                     </a>
                   </div>
 
-                  <input
+                  <Input
                     type='password'
                     name='password'
                     id='password'
                     value={password}
                     onChange={(event) => setPassword(event.target.value)}
                     placeholder='Tu contraseña'
-                    className='block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-zinc-950 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40'
                   />
                 </div>
 
@@ -147,7 +103,7 @@ export default function Login() {
               <p className='mt-6 text-sm text-center text-gray-400'>
                 ¿No tienes una cuenta todavía?{' '}
                 <a
-                  href='#'
+                  href='/register'
                   className='text-blue-500 focus:outline-none focus:underline hover:underline'
                 >
                   Regístrate
