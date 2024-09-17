@@ -43,7 +43,7 @@ export default function Home() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
 
-  const formatCurrency = (amount: number) => `$${amount.toFixed(2)}`;
+  const formatCurrency = (amount: number) => `${amount.toFixed(2)}`;
 
   function TransactionList({ transactions }: { transactions: Transaction[] }) {
     return (
