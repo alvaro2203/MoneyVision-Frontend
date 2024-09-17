@@ -1,12 +1,12 @@
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 // import Home from './pages/Home';
 import Login from './pages/Login';
-// import PrivateRoute from './components/PrivateRoute/PrivateRoute.tsx';
-import Register from './pages/Register/index.tsx';
-import LandingPage from './pages/LandingPage/index.tsx';
-import AboutPage from './pages/About/index.tsx';
-import TestimonialsPage from './pages/Testimonials/index.tsx';
-import FeaturesPage from './pages/Features/index.tsx';
+// import PrivateRoute from './components/PrivateRoute;
+import Register from './pages/Register';
+import LandingPage from './pages/LandingPage';
+import AboutPage from './pages/About';
+import TestimonialsPage from './pages/Testimonials';
+import FeaturesPage from './pages/Features';
 
 function App() {
   return (
@@ -22,6 +22,7 @@ function App() {
         {/* <Route element={<PrivateRoute />}>
           <Route path='/' element={<Home />} />
         </Route> */}
+
       </Routes>
     </BrowserRouter>
   );

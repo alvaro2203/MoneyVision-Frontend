@@ -66,7 +66,7 @@ export default function AboutPage() {
               <Card>
                 <CardContent className='p-6 text-center'>
                   <div className='w-24 h-24 rounded-full bg-gray-200 mx-auto mb-4'></div>
-                  <h3 className='text-xl font-bold mb-2'>Oscar García</h3>
+                  <h3 className='text-xl font-bold mb-2'>Óscar García</h3>
                   <p className='text-gray-500'>Fundador y CTO</p>
                 </CardContent>
               </Card>
