@@ -5,6 +5,7 @@ import api from '../api/axios';
 const useAuth = () => {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
+  const [userId, setUserId] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -14,6 +15,7 @@ const useAuth = () => {
 
         if (response.status === 200) {
           setAuthenticated(true);
+          setUserId(response.data.userId);
         } else {
           setAuthenticated(false);
           navigate('/login');
@@ -28,7 +30,7 @@ const useAuth = () => {
     verifyUser();
   }, [navigate]);
 
-  return { authenticated, loading };
+  return { authenticated, loading, userId };
 };
 
 export default useAuth;
