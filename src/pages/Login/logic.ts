@@ -36,7 +36,7 @@ export const useLoginLogic = () => {
       const response = await api.post('/login', { email, password });
 
       response.status === 200
-        ? navigate('/')
+        ? navigate('/home')
         : setError('Error de autenticación.' + response.data.message);
     } catch (error) {
       setError('Error de autenticación.');
