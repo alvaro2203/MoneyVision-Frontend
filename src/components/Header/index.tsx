@@ -16,6 +16,12 @@ export default function Header() {
         <span className='font-bold'>MoneyVision</span>
       </Link>
       <nav className='hidden md:flex gap-4 sm:gap-6'>
+      <Link
+          className='text-sm font-medium hover:underline underline-offset-4'
+          to='/home'
+        >
+          Panel de usuario
+        </Link>
         <Link
           className='text-sm font-medium hover:underline underline-offset-4'
           to='/features'
@@ -28,12 +34,7 @@ export default function Header() {
         >
           Testimonios
         </Link>
-        <Link
-          className='text-sm font-medium hover:underline underline-offset-4'
-          to='#pricing'
-        >
-          Precios
-        </Link>
+        
       </nav>
       <button
         className='md:hidden'
@@ -46,6 +47,13 @@ export default function Header() {
       {isMenuOpen && (
         <div className='absolute top-14 left-0 right-0 bg-white shadow-md z-50'>
           <nav className='flex flex-col p-4'>
+          <Link
+              className='text-sm font-medium py-2 hover:underline underline-offset-4'
+              to='/home'
+              onClick={toggleMenu}
+            >
+              Panel de usuario
+            </Link>
             <Link
               className='text-sm font-medium py-2 hover:underline underline-offset-4'
               to='/features'
@@ -60,13 +68,8 @@ export default function Header() {
             >
               Testimonios
             </Link>
-            <Link
-              className='text-sm font-medium py-2 hover:underline underline-offset-4'
-              to='#pricing'
-              onClick={toggleMenu}
-            >
-              Precios
-            </Link>
+            
+            
           </nav>
         </div>
       )}

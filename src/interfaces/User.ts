@@ -7,5 +7,5 @@ export interface User {
   email: string;
   password: string;
   money: number;
-  transaction: Transaction[];
+  transactions: Transaction[];
 }
