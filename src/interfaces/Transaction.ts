@@ -4,7 +4,7 @@ import { User } from './User';
 
 export interface Transaction {
   date: string | number | Date;
-  id: string;
+  _id: string;
   title: string;
   description?: string;
   amount: number;
