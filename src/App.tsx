@@ -7,6 +7,7 @@ import LandingPage from './pages/LandingPage';
 import AboutPage from './pages/About';
 import TestimonialsPage from './pages/Testimonials';
 import FeaturesPage from './pages/Features';
+import CompoundInterestCalculator from './pages/CompoundInterest';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route element={<PrivateRoute />}>
           <Route path='/home' element={<Home />} />
         </Route> 
+        <Route path='/compound-interest' element={<CompoundInterestCalculator />} />
 
       </Routes>
     </BrowserRouter>
