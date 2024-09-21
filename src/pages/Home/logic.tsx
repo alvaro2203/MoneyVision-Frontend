@@ -1,29 +1,27 @@
 import api from '@/api/axios';
-import useAuth from '@/hooks/useAuth';
-import { User } from '@/interfaces/User';
 import { useEffect, useState } from 'react';
 import { Transaction } from '@/interfaces/Transaction';
-import { Category } from '@/interfaces/Category';
 import { TYPE_OF_TRANSACTION_ENUM } from '@/consts';
+import { useGetUserData } from '@/hooks/useGetUserData';
+import { useGetCategories } from '@/hooks/useGetCategories';
+import { Category } from '@/interfaces/Category';
 
 export const useHomeLogic = () => {
-  const { userId } = useAuth();
+  const {
+    user,
+    loading: userLoading,
+    error: userError,
+    setUser,
+  } = useGetUserData();
+  const {
+    categories,
+    loading: categoriesLoading,
+    error: categoriesError,
+  } = useGetCategories();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
   const [transactionError, setTransactionError] = useState<string | null>(null);
   const [totalIncomes, setTotalIncomes] = useState<number>(0);
   const [totalExpenses, setTotalExpenses] = useState<number>(0);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [user, setUser] = useState<User>({
-    id: '',
-    name: '',
-    username: '',
-    email: '',
-    password: '',
-    money: 0,
-    transactions: [],
-  });
   const [newTransaction, setNewTransaction] = useState<Transaction>({
     title: '',
     description: '',
@@ -34,47 +32,12 @@ export const useHomeLogic = () => {
       name: '',
       description: '',
     },
-    user: userId || '',
+    user: user._id || '',
   });
 
   useEffect(() => {
-    if (userId) setNewTransaction((prev) => ({ ...prev, user: userId }));
-  }, [userId]);
-
-  useEffect(() => {
-    const getUserData = async () => {
-      setLoading(true);
-      setError(null);
-
-      try {
-        const response = await api.get<User>(`/api/users/${userId}`);
-        setUser(response.data);
-      } catch (error) {
-        setError('Error al obtener los datos del usuario');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (userId) getUserData();
-  }, [userId]);
-
-  useEffect(() => {
-    const getCategories = async () => {
-      setLoading(true);
-      setError(null);
-
-      try {
-        const response = await api.get<Category[]>('/api/categories');
-        setCategories(response.data);
-      } catch (error) {
-        setError('Error al obtener las categorías');
-      } finally {
-        setLoading(false);
-      }
-    };
-    getCategories();
-  }, []);
+    if (user._id) setNewTransaction((prev) => ({ ...prev, user: user._id }));
+  }, [user._id]);
 
   useEffect(() => {
     const getTotalIncomes = () => {
@@ -96,7 +59,7 @@ export const useHomeLogic = () => {
     getTotalExpenses();
   }, [user.transactions]);
 
-  const handleSelectChange = (name: string, value: string) =>
+  const handleSelectChange = (name: string, value: Category | string) =>
     setNewTransaction((prev) => ({ ...prev, [name]: value }));
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,12 +70,14 @@ export const useHomeLogic = () => {
     }));
   };
 
-  const handleDelete = async (transactionId: string) => {
+  const handleDelete = async (transactionId: string | undefined) => {
     try {
       await api.delete(`/api/transactions/${transactionId}`);
       setUser((prev) => ({
         ...prev,
-        transactions: prev.transactions.filter((t) => t._id !== transactionId),
+        transactions: prev.transactions.filter(
+          (transaction) => transaction._id !== transactionId
+        ),
       }));
     } catch (error) {
       console.error('Error al eliminar la transacción', error);
@@ -144,7 +109,7 @@ export const useHomeLogic = () => {
           name: '',
           description: '',
         },
-        user: userId,
+        user: user._id,
       });
       setIsDialogOpen(false);
     }
@@ -153,9 +118,7 @@ export const useHomeLogic = () => {
   const formatCurrency = (amount: number) => `${amount.toFixed(2)} €`;
 
   return {
-    userId,
     user,
-    setUser,
     formatCurrency,
     handleSubmit,
     transactionError,
@@ -166,10 +129,8 @@ export const useHomeLogic = () => {
     newTransaction,
     isDialogOpen,
     setIsDialogOpen,
-    loading,
-    error,
-    setLoading,
-    setError,
+    loading: userLoading || categoriesLoading,
+    error: userError || categoriesError,
     categories,
     handleDelete,
   };

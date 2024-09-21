@@ -3,7 +3,7 @@ import { Button } from '../ui/button';
 
 interface TransactionListProps {
   transactions: Transaction[];
-  handleDelete: (transactionId: string) => Promise<void>;
+  handleDelete: (transactionId: string | undefined) => Promise<void>;
   formatCurrency: (amount: number) => string;
 }
 

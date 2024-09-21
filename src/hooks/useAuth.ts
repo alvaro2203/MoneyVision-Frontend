@@ -5,7 +5,7 @@ import api from '../api/axios';
 const useAuth = () => {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
-  const [userId, setUserId] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string>('');
   const navigate = useNavigate();
 
   useEffect(() => {

@@ -1,4 +1,3 @@
-import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowUpDown, BarChart3, CreditCard, DollarSign } from 'lucide-react';
@@ -47,6 +46,7 @@ export default function Home() {
 
   if (loading) return <p>Cargando...</p>;
   if (error) return <p>{error}</p>;
+  if (!user) return <p>No se pudo cargar el usuario.</p>;
 
   return (
     <div className='container mx-auto px-4 py-8'>
@@ -193,8 +193,8 @@ export default function Home() {
               <div>
                 <Label htmlFor='category'>Categoría</Label>
                 <Select
-                  id='category'
-                  value={newTransaction.category}
+                  name='category'
+                  value={newTransaction.category._id}
                   onValueChange={(value) =>
                     handleSelectChange('category', value)
                   }
