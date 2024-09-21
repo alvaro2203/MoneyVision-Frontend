@@ -8,6 +8,7 @@ import TestimonialsPage from '@/pages/Testimonials';
 import FeaturesPage from '@/pages/Features';
 import PrivateRoute from '../PrivateRoute';
 import Home from '@/pages/Home';
+import CompoundInterestCalculator from '@/pages/CompoundInterest';
 
 export function Layout() {
   const location = useLocation();
@@ -29,6 +30,10 @@ export function Layout() {
         <Route path='/about' element={<AboutPage />} />
         <Route path='/testimonials' element={<TestimonialsPage />} />
         <Route path='/features' element={<FeaturesPage />} />
+        <Route
+          path='/compound-interest'
+          element={<CompoundInterestCalculator />}
+        />
 
         <Route element={<PrivateRoute />}>
           <Route path='/home' element={<Home />} />
