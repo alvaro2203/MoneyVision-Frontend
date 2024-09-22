@@ -1,5 +1,6 @@
 import { Transaction } from '@/interfaces/Transaction';
 import { Button } from '../ui/button';
+import { format } from 'date-fns';
 
 interface TransactionListProps {
   transactions: Transaction[];
@@ -17,13 +18,24 @@ export function TransactionList({
       {transactions.map((transaction) => (
         <div
           key={transaction._id}
-          className='flex justify-between items-center p-4 bg-gray-200 rounded-lg'
+          className='flex flex-col md:flex-row justify-between items-start md:items-center p-4 bg-gray-200 rounded-lg space-y-4 md:space-y-0'
         >
-          <div className='text-left'>
-            <p className='font-semibold text-gray-800'>{transaction.title}</p>
+          <div className='text-left space-y-1'>
+            <p className='font-semibold text-gray-800'>
+              {transaction.title}
+              <span className='text-sm text-gray-500'>
+                {' '}
+                - {transaction.category.name}
+              </span>
+            </p>
             <p className='text-sm text-gray-600'>{transaction.description}</p>
+            {transaction.createdAt && (
+              <p className='text-xs text-gray-500'>
+                {format(new Date(transaction.createdAt), 'dd/MM/yyyy')}
+              </p>
+            )}
           </div>
-          <div className='flex items-center space-x-4'>
+          <div className='flex flex-col md:flex-row md:items-center md:space-x-4 w-full md:w-auto'>
             <p
               className={`font-bold ${
                 transaction.typeOfTransaction === 'Income'
@@ -33,15 +45,18 @@ export function TransactionList({
             >
               {formatCurrency(transaction.amount)}
             </p>
-            <Button variant='outline' className='mr-2'>
-              Editar
-            </Button>
-            <Button
-              variant='destructive'
-              onClick={() => handleDelete(transaction._id)}
-            >
-              Borrar
-            </Button>
+            <div className='flex space-x-2 w-full md:w-auto'>
+              <Button variant='outline' className='w-full md:w-auto'>
+                Editar
+              </Button>
+              <Button
+                className='w-full md:w-auto'
+                variant='destructive'
+                onClick={() => handleDelete(transaction._id)}
+              >
+                Borrar
+              </Button>
+            </div>
           </div>
         </div>
       ))}

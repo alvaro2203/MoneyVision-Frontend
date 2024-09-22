@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowUpDown, BarChart3, CreditCard, DollarSign } from 'lucide-react';
 import {
   Dialog,
@@ -24,6 +24,7 @@ import {
 } from '@/consts';
 import { useHomeLogic } from './logic';
 import { TransactionList } from '@/components/TransactionsList';
+import InfoCard from '@/components/InfoCard';
 
 export default function Home() {
   const {
@@ -49,95 +50,70 @@ export default function Home() {
   if (!user) return <p>No se pudo cargar el usuario.</p>;
 
   return (
-    <div className='container mx-auto px-4 py-8 space-y-20 max-w-4xl'>
+    <div className='container max-w-4xl mx-auto px-4 py-8 space-y-20'>
       <h1 className='text-3xl font-bold mb-8'>¡Bienvenido, {user.username}!</h1>
 
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mb-8'>
-        <Card
-          className={`${
-            user.money !== null &&
-            user.money + totalIncomes - totalExpenses < 30
-              ? 'bg-red-400'
-              : ''
-          }`}
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 mb-8'>
+        <InfoCard
+          title='Saldo Total'
+          icon={<DollarSign className='h-4 w-4 text-muted-foreground' />}
+          isHighlighted={user.money + totalIncomes - totalExpenses < 30}
+          highlightedClassName='bg-red-400'
         >
-          <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-            <CardTitle className='text-sm font-medium'>Saldo Total</CardTitle>
-            <DollarSign className='h-4 w-4 text-muted-foreground' />
-          </CardHeader>
-          <CardContent>
-            <div className='text-2xl font-bold'>
-              {user.money !== null
-                ? formatCurrency(user.money + totalIncomes - totalExpenses)
-                : 'Cargando...'}
-            </div>
-            {user.money !== null &&
-              user.money + totalIncomes - totalExpenses < 30 && (
-                <p className='text-white text-center text-sm'>¡Saldo bajo!</p>
-              )}
-          </CardContent>
-        </Card>
+          <div className='text-2xl font-bold'>
+            {formatCurrency(user.money + totalIncomes - totalExpenses)}
+          </div>
+          {user.money + totalIncomes - totalExpenses < 30 && (
+            <p className='text-white text-center text-sm'>¡Saldo bajo!</p>
+          )}
+        </InfoCard>
 
-        <Card>
-          <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-            <CardTitle className='text-sm font-medium'>
-              Número de Transacciones
-            </CardTitle>
-            <BarChart3 className='h-4 w-4 text-muted-foreground' />
-          </CardHeader>
-          <CardContent>
-            <div className='text-2xl font-bold'>{user.transactions.length}</div>
-          </CardContent>
-        </Card>
-
-        <Card
-          className={`${totalExpenses > totalIncomes ? 'bg-red-400' : ''} `}
+        <InfoCard
+          title='Número de Transacciones'
+          icon={<BarChart3 className='h-4 w-4 text-muted-foreground' />}
         >
-          <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-            <CardTitle className='text-sm font-medium'>
-              Gastos Totales
-            </CardTitle>
-            <CreditCard className='h-4 w-4 text-muted-foreground' />
-          </CardHeader>
-          <CardContent>
-            <div className='text-2xl font-bold'>
-              {formatCurrency(totalExpenses)}
-            </div>
-            {totalExpenses > totalIncomes && (
-              <p className='text-white text-center text-sm'>
-                ¡Gastos demasiado elevados!
-              </p>
-            )}
-          </CardContent>
-        </Card>
+          <div className='text-2xl font-bold'>{user.transactions.length}</div>
+        </InfoCard>
 
-        <Card>
-          <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-            <CardTitle className='text-sm font-medium'>
-              Ingresos Totales
-            </CardTitle>
-            <ArrowUpDown className='h-4 w-4 text-muted-foreground' />
-          </CardHeader>
-          <CardContent>
-            <div className='text-2xl font-bold'>
-              {formatCurrency(totalIncomes)}
-            </div>
-          </CardContent>
-        </Card>
+        <InfoCard
+          title='Gastos Totales'
+          icon={<CreditCard className='h-4 w-4 text-muted-foreground' />}
+          isHighlighted={totalExpenses > totalIncomes}
+          highlightedClassName='bg-red-400'
+        >
+          <div className='text-2xl font-bold'>
+            {formatCurrency(totalExpenses)}
+          </div>
+          {totalExpenses > totalIncomes && (
+            <p className='text-white text-center text-sm'>
+              ¡Gastos demasiado elevados!
+            </p>
+          )}
+        </InfoCard>
+
+        <InfoCard
+          title='Ingresos Totales'
+          icon={<ArrowUpDown className='h-4 w-4 text-muted-foreground' />}
+        >
+          <div className='text-2xl font-bold'>
+            {formatCurrency(totalIncomes)}
+          </div>
+        </InfoCard>
       </div>
 
       <div className='w-full mx-auto px-4 sm:px-6 lg:px-8'>
-        <div className='flex justify-between items-center p-6'>
+        <div className='flex flex-col md:flex-row justify-between items-start md:items-center p-6 space-y-4 md:space-y-0'>
           <CardHeader className='p-0'>
             <CardTitle className='text-2xl font-bold'>
               Transacciones Recientes
             </CardTitle>
           </CardHeader>
+
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
-              <Button>Añadir Transacción</Button>
+              <Button className='w-full md:w-auto'>Añadir Transacción</Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className='max-w-full sm:max-w-md'>
               <DialogHeader>
                 <DialogTitle>Añadir Nueva Transacción</DialogTitle>
               </DialogHeader>
@@ -225,15 +201,12 @@ export default function Home() {
             </DialogContent>
           </Dialog>
         </div>
-        <CardContent className='pt-6'>
+        <CardContent className='pt-6 overflow-x-auto'>
           <TransactionList
             transactions={user.transactions}
             handleDelete={handleDelete}
             formatCurrency={formatCurrency}
           />
-          <div className='mt-6 text-center'>
-            <Button variant='outline'>Ver Todas las Transacciones</Button>
-          </div>
         </CardContent>
       </div>
     </div>
