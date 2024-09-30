@@ -6,6 +6,7 @@ import { useGetUserData } from '@/hooks/useGetUserData';
 import { useGetCategories } from '@/hooks/useGetCategories';
 import { Category } from '@/interfaces/Category';
 
+
 export const useHomeLogic = () => {
   const {
     user,
@@ -84,6 +85,7 @@ export const useHomeLogic = () => {
     }
   };
 
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -134,4 +136,5 @@ export const useHomeLogic = () => {
     categories,
     handleDelete,
   };
+
 };
