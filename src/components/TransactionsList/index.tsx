@@ -1,10 +1,10 @@
-import { Transaction } from '@/interfaces/Transaction';
+import { GetTransaction } from '@/interfaces/Transaction';
 import { Button } from '../ui/button';
 import { format } from 'date-fns';
 import { useGetCategories } from '@/hooks/useGetCategories';
 
 interface TransactionListProps {
-  transactions: Transaction[];
+  transactions: GetTransaction[];
   handleDelete: (transactionId: string | undefined) => Promise<void>;
   formatCurrency: (amount: number) => string;
 }
@@ -22,8 +22,8 @@ export function TransactionList({
   return (
     <div className='space-y-4'>
       {transactions.map((transaction) => {
-        const category = categories.find(
-          (category) => category._id === transaction.category
+        const currentCategory = categories.find(
+          (c) => c._id === transaction.category._id
         );
 
         return (
@@ -36,7 +36,7 @@ export function TransactionList({
                 {transaction.title}
                 <span className='text-sm text-gray-500'>
                   {' '}
-                  - {category?.name || 'Sin categoria'}
+                  - {currentCategory?.name || 'Sin categoria'}
                 </span>
               </p>
               <p className='text-sm text-gray-600'>{transaction.description}</p>

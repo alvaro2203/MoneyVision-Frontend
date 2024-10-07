@@ -1,6 +1,6 @@
 import api from '@/api/axios';
 import { useEffect, useState } from 'react';
-import { Transaction } from '@/interfaces/Transaction';
+import { CreateTransaction } from '@/interfaces/Transaction';
 import { TYPE_OF_TRANSACTION_ENUM } from '@/consts';
 import { useGetUserData } from '@/hooks/useGetUserData';
 import { useGetCategories } from '@/hooks/useGetCategories';
@@ -23,7 +23,7 @@ export const useHomeLogic = () => {
   const [transactionError, setTransactionError] = useState<string | null>(null);
   const [totalIncomes, setTotalIncomes] = useState<number>(0);
   const [totalExpenses, setTotalExpenses] = useState<number>(0);
-  const [newTransaction, setNewTransaction] = useState<Transaction>({
+  const [newTransaction, setNewTransaction] = useState<CreateTransaction>({
     title: '',
     description: '',
     amount: 0,
