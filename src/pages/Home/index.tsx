@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'; 
+import { CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowUpDown, BarChart3, CreditCard, DollarSign } from 'lucide-react';
 import {
   Dialog,
@@ -25,7 +25,8 @@ import {
 import { useHomeLogic } from './logic';
 import { TransactionList } from '@/components/TransactionsList';
 import InfoCard from '@/components/InfoCard';
-import ChartDoughnut from '@/components/ChartDoughnut';
+import { Description } from '@radix-ui/react-dialog';
+// import ChartDoughnut from '@/components/ChartDoughnut';
 
 export default function Home() {
   const {
@@ -116,6 +117,10 @@ export default function Home() {
                 <Button className='w-full md:w-auto'>Añadir Transacción</Button>
               </DialogTrigger>
               <DialogContent className='max-w-full sm:max-w-md'>
+                <Description>
+                  Añade aquí la información de tu transacción
+                </Description>
+
                 <DialogHeader>
                   <DialogTitle>Añadir Nueva Transacción</DialogTitle>
                 </DialogHeader>
@@ -152,7 +157,9 @@ export default function Home() {
                     />
                   </div>
                   <div>
-                    <Label htmlFor='typeOfTransaction'>Tipo de Transacción</Label>
+                    <Label htmlFor='typeOfTransaction'>
+                      Tipo de Transacción
+                    </Label>
                     <Select
                       name='typeOfTransaction'
                       onValueChange={(value) =>
@@ -176,12 +183,12 @@ export default function Home() {
                   <div>
                     <Label htmlFor='category'>Categoría</Label>
                     <Select
+                      required
                       name='category'
-                      value={newTransaction.category._id}
+                      value={newTransaction._id}
                       onValueChange={(value) =>
                         handleSelectChange('category', value)
                       }
-                      required
                     >
                       <SelectTrigger>
                         <SelectValue placeholder='Selecciona una categoría' />
@@ -211,7 +218,7 @@ export default function Home() {
             />
           </CardContent>
         </div>
-        <div className='w-full md:w-2/3 lg:w-1/4 mx-auto'> 
+        {/* <div className='w-full md:w-2/3 lg:w-1/4 mx-auto'> 
           <Card className='p-4'>
             <CardHeader>
               <CardTitle className='text-xl font-bold'>Resumen</CardTitle>
@@ -223,7 +230,7 @@ export default function Home() {
               </div>
             </CardContent> 
           </Card>
-        </div>
+        </div> */}
       </div>
     </div>
   );

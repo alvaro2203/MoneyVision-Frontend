@@ -1,5 +1,4 @@
 import { TYPE_OF_TRANSACTION_ENUM } from '../consts';
-import { Category } from './Category';
 
 export interface Transaction {
   _id?: string;
@@ -8,6 +7,6 @@ export interface Transaction {
   amount: number;
   typeOfTransaction: TYPE_OF_TRANSACTION_ENUM;
   user: string;
-  category: Category;
+  category: string;
   createdAt?: string | number | Date;
 }

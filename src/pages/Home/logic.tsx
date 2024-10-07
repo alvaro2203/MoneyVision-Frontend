@@ -4,8 +4,8 @@ import { Transaction } from '@/interfaces/Transaction';
 import { TYPE_OF_TRANSACTION_ENUM } from '@/consts';
 import { useGetUserData } from '@/hooks/useGetUserData';
 import { useGetCategories } from '@/hooks/useGetCategories';
-import { Category } from '@/interfaces/Category';
-
+import { AxiosError } from 'axios';
+import { ApiError } from '@/interfaces/AuthErrorResponse';
 
 export const useHomeLogic = () => {
   const {
@@ -19,7 +19,7 @@ export const useHomeLogic = () => {
     loading: categoriesLoading,
     error: categoriesError,
   } = useGetCategories();
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [transactionError, setTransactionError] = useState<string | null>(null);
   const [totalIncomes, setTotalIncomes] = useState<number>(0);
   const [totalExpenses, setTotalExpenses] = useState<number>(0);
@@ -28,11 +28,7 @@ export const useHomeLogic = () => {
     description: '',
     amount: 0,
     typeOfTransaction: TYPE_OF_TRANSACTION_ENUM.Expense,
-    category: {
-      _id: '',
-      name: '',
-      description: '',
-    },
+    category: '',
     user: user._id || '',
   });
 
@@ -60,8 +56,9 @@ export const useHomeLogic = () => {
     getTotalExpenses();
   }, [user.transactions]);
 
-  const handleSelectChange = (name: string, value: Category | string) =>
+  const handleSelectChange = (name: string, value: string) => {
     setNewTransaction((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type } = e.target;
@@ -85,7 +82,6 @@ export const useHomeLogic = () => {
     }
   };
 
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -98,22 +94,23 @@ export const useHomeLogic = () => {
         ...prev,
         transactions: [...prev.transactions, addedTransaction],
       }));
-    } catch (error) {
-      setTransactionError('Error al añadir la transacción');
-    } finally {
+
+      setIsDialogOpen(false);
       setNewTransaction({
         title: '',
         description: '',
         amount: 0,
         typeOfTransaction: TYPE_OF_TRANSACTION_ENUM.Expense,
-        category: {
-          _id: '',
-          name: '',
-          description: '',
-        },
+        category: '',
         user: user._id,
       });
-      setIsDialogOpen(false);
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiError>;
+      if (axiosError.response) {
+        setTransactionError(
+          axiosError.response.data?.error || 'Error al añadir la transacción'
+        );
+      }
     }
   };
 
@@ -136,5 +133,4 @@ export const useHomeLogic = () => {
     categories,
     handleDelete,
   };
-
 };
