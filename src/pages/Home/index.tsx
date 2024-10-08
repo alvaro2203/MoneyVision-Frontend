@@ -59,13 +59,13 @@ export default function Home() {
         <InfoCard
           title='Saldo Total'
           icon={<DollarSign className='h-4 w-4 text-muted-foreground' />}
-          isHighlighted={user.money + totalIncomes - totalExpenses < 30}
+          isHighlighted={user.money < 30}
           highlightedClassName='bg-red-400'
         >
           <div className='text-2xl font-bold'>
-            {formatCurrency(user.money + totalIncomes - totalExpenses)}
+            {formatCurrency(user.money)}
           </div>
-          {user.money + totalIncomes - totalExpenses < 30 && (
+          {user.money < 30 && (
             <p className='text-white text-center text-sm'>¡Saldo bajo!</p>
           )}
         </InfoCard>
