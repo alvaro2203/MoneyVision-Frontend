@@ -34,7 +34,7 @@ export const useHomeLogic = () => {
 
   useEffect(() => {
     if (user._id) setNewTransaction((prev) => ({ ...prev, user: user._id }));
-  }, [user._id],);
+  }, [user._id]);
 
   useEffect(() => {
     const getTotalIncomes = () => {
@@ -91,15 +91,15 @@ export const useHomeLogic = () => {
       setTransactionError(null);
 
       const updatedBalance =
-      addedTransaction.typeOfTransaction === TYPE_OF_TRANSACTION_ENUM.Income ? user.money + addedTransaction.amount : user.money - addedTransaction.amount
+        addedTransaction.typeOfTransaction === TYPE_OF_TRANSACTION_ENUM.Income
+          ? user.money + addedTransaction.amount
+          : user.money - addedTransaction.amount;
 
       setUser((prev) => ({
         ...prev,
         money: updatedBalance,
         transactions: [...prev.transactions, addedTransaction],
       }));
-
-    
 
       setIsDialogOpen(false);
       setNewTransaction({
@@ -118,7 +118,6 @@ export const useHomeLogic = () => {
         );
       }
     }
-    
   };
 
   const formatCurrency = (amount: number) => `${amount.toFixed(2)} €`;
