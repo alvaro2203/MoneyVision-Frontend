@@ -3,7 +3,7 @@ import api from '../../api/axios';
 import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import { RegisterFormData } from '../../interfaces/RegisterFormData';
-import { AuthErrorResponse } from '../../interfaces/AuthErrorResponse';
+import { ApiErrorArray } from '../../interfaces/AuthErrorResponse';
 
 export const useRegisterLogic = () => {
   const [formData, setFormData] = useState<RegisterFormData>({
@@ -71,7 +71,7 @@ export const useRegisterLogic = () => {
         ? navigate('/')
         : setError('Error de autenticación.' + response.data.message);
     } catch (error: unknown) {
-      const axiosError = error as AxiosError<AuthErrorResponse>;
+      const axiosError = error as AxiosError<ApiErrorArray>;
 
       const errorMessage =
         typeof axiosError.response?.data?.error === 'string'
