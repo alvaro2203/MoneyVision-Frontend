@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowUpDown, BarChart3, CreditCard, DollarSign } from 'lucide-react';
 import {
   Dialog,
@@ -30,6 +30,7 @@ import { CreateTransaction } from '@/interfaces/Transaction';
 import InfoCard from '@/components/InfoCard';
 import { Description } from '@radix-ui/react-dialog';
 import { TransactionList } from '@/components/TransactionsList';
+import ChartDoughnut from '@/components/ChartDoughnut';
 
 export default function Home() {
   const { userId } = useAuth();
@@ -234,6 +235,30 @@ export default function Home() {
               formatCurrency={formatCurrency}
             />
           </CardContent>
+        </div>
+        <div className='w-full md:w-2/3 lg:w-1/4 mx-auto'>
+          <Card className='p-4'>
+            <CardHeader>
+              <CardTitle className='text-xl font-bold'>Resumen</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ChartDoughnut />
+              <div className='my-4'>
+                <p className=''>
+                  Balance total :{' '}
+                  <span
+                    className={`font-bold ${
+                      totalIncomes - totalExpenses < 0
+                        ? 'text-red-500'
+                        : 'text-green-500'
+                    }`}
+                  >
+                    {formatCurrency(totalIncomes - totalExpenses)}
+                  </span>
+                </p>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>
