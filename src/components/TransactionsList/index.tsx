@@ -1,6 +1,6 @@
 import { GetTransaction } from '@/interfaces/Transaction';
-import { Button } from '../ui/button';
 import { format } from 'date-fns';
+import Button from '../button';
 
 interface TransactionListProps {
   transactions: GetTransaction[];
@@ -45,12 +45,12 @@ export function TransactionList({
               {formatCurrency(transaction.amount)}
             </p>
             <div className='flex space-x-2 w-full md:w-auto'>
-              <Button variant='outline' className='w-full md:w-auto'>
+              <Button variant='secondary' className='w-full md:w-auto'>
                 Editar
               </Button>
               <Button
                 className='w-full md:w-auto'
-                variant='destructive'
+                variant='danger'
                 onClick={() => handleDelete(transaction._id)}
               >
                 Borrar

@@ -1,6 +1,4 @@
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowUpDown, BarChart3, CreditCard, DollarSign } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -8,8 +6,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
@@ -17,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { TransactionList } from '@/components/TransactionsList';
 import {
   TYPE_OF_TRANSACTION_ENUM,
   TYPE_OF_TRANSACTION_EXPENSE,
@@ -28,9 +25,11 @@ import { useEffect, useState } from 'react';
 import useCategoryStore from '@/store/categoryStore';
 import { CreateTransaction } from '@/interfaces/Transaction';
 import InfoCard from '@/components/InfoCard';
-import { Description } from '@radix-ui/react-dialog';
-import { TransactionList } from '@/components/TransactionsList';
 import ChartDoughnut from '@/components/ChartDoughnut';
+import { ArrowUpDown, BarChart3, CreditCard, DollarSign } from 'lucide-react';
+import Button from '@/components/button';
+import { Label } from '@/components/Label';
+import { Input } from '@/components/Input';
 
 export default function Home() {
   const { userId } = useAuth();
@@ -147,10 +146,6 @@ export default function Home() {
                 <Button className='w-full md:w-auto'>Añadir Transacción</Button>
               </DialogTrigger>
               <DialogContent className='max-w-full sm:max-w-md'>
-                <Description>
-                  Añade aquí la información de tu transacción
-                </Description>
-
                 <DialogHeader>
                   <DialogTitle>Añadir Nueva Transacción</DialogTitle>
                 </DialogHeader>
