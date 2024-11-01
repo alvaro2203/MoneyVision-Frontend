@@ -1,16 +1,9 @@
-import { FC, ReactNode } from 'react';
-
-interface MainSection {
+interface MainSectionProps {
   title: string;
   description: string;
-  children: ReactNode;
 }
 
-export const MainSection: FC<MainSection> = ({
-  children,
-  title,
-  description,
-}) => {
+export const MainSection = ({ title, description }: MainSectionProps) => {
   return (
     <section className='w-full py-12 md:py-24 lg:py-32'>
       <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
@@ -20,7 +13,6 @@ export const MainSection: FC<MainSection> = ({
         <p className='max-w-[700px] text-gray-500 md:text-xl mb-12 text-center mx-auto'>
           {description}
         </p>
-        {children}
       </div>
     </section>
   );

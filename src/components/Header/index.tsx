@@ -18,6 +18,18 @@ export default function Header() {
       <nav className='hidden md:flex gap-4 sm:gap-6'>
         <Link
           className='text-sm font-medium hover:underline underline-offset-4'
+          to='/home'
+        >
+          Panel de usuario
+        </Link>
+        <Link
+          className='text-sm font-medium hover:underline underline-offset-4'
+          to='/compound-interest'
+        >
+          Calculadora interés
+        </Link>
+        <Link
+          className='text-sm font-medium hover:underline underline-offset-4'
           to='/features'
         >
           Características
@@ -30,9 +42,9 @@ export default function Header() {
         </Link>
         <Link
           className='text-sm font-medium hover:underline underline-offset-4'
-          to='#pricing'
+          to='/about'
         >
-          Precios
+          Sobre nosotros
         </Link>
       </nav>
       <button
@@ -48,6 +60,13 @@ export default function Header() {
           <nav className='flex flex-col p-4'>
             <Link
               className='text-sm font-medium py-2 hover:underline underline-offset-4'
+              to='/home'
+              onClick={toggleMenu}
+            >
+              Panel de usuario
+            </Link>
+            <Link
+              className='text-sm font-medium py-2 hover:underline underline-offset-4'
               to='/features'
               onClick={toggleMenu}
             >
@@ -59,13 +78,6 @@ export default function Header() {
               onClick={toggleMenu}
             >
               Testimonios
-            </Link>
-            <Link
-              className='text-sm font-medium py-2 hover:underline underline-offset-4'
-              to='#pricing'
-              onClick={toggleMenu}
-            >
-              Precios
             </Link>
           </nav>
         </div>

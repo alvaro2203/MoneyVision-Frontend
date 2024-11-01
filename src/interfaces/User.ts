@@ -1,11 +1,11 @@
-import { Transaction } from './Transaction';
+import { GetTransaction } from './Transaction';
 
 export interface User {
-  id: string;
+  _id: string;
   name: string;
   username: string;
   email: string;
   password: string;
   money: number;
-  transaction: Transaction[];
+  transactions: GetTransaction[];
 }

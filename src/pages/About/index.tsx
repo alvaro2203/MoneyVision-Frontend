@@ -7,14 +7,10 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { Link } from 'react-router-dom';
-import Header from '@/components/Header';
 
 export default function AboutPage() {
   return (
     <div className='flex flex-col min-h-screen'>
-      <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
-        <Header />
-      </div>
       <main className='flex-1'>
         <section className='w-full py-12 md:py-24 lg:py-32'>
           <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
@@ -66,7 +62,7 @@ export default function AboutPage() {
               <Card>
                 <CardContent className='p-6 text-center'>
                   <div className='w-24 h-24 rounded-full bg-gray-200 mx-auto mb-4'></div>
-                  <h3 className='text-xl font-bold mb-2'>Oscar García</h3>
+                  <h3 className='text-xl font-bold mb-2'>Óscar García</h3>
                   <p className='text-gray-500'>Fundador y CTO</p>
                 </CardContent>
               </Card>
