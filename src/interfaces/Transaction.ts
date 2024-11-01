@@ -3,8 +3,7 @@ import { Category } from './Category';
 
 export interface CreateTransaction {
   _id?: string;
-  title: string;
-  description?: string;
+  description: string;
   amount: number;
   typeOfTransaction: TYPE_OF_TRANSACTION_ENUM;
   user: string;
@@ -14,8 +13,7 @@ export interface CreateTransaction {
 
 export interface GetTransaction {
   _id?: string;
-  title: string;
-  description?: string;
+  description: string;
   amount: number;
   typeOfTransaction: TYPE_OF_TRANSACTION_ENUM;
   user: string;

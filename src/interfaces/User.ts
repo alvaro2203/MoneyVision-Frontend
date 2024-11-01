@@ -1,4 +1,4 @@
-import { Transaction } from './Transaction';
+import { GetTransaction } from './Transaction';
 
 export interface User {
   _id: string;
@@ -7,5 +7,5 @@ export interface User {
   email: string;
   password: string;
   money: number;
-  transactions: Transaction[];
+  transactions: GetTransaction[];
 }

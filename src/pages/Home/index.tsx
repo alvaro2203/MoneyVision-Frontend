@@ -22,34 +22,65 @@ import {
   TYPE_OF_TRANSACTION_EXPENSE,
   TYPE_OF_TRANSACTION_INCOME,
 } from '@/consts';
-import { useHomeLogic } from './logic';
-import { TransactionList } from '@/components/TransactionsList';
+import useAuth from '@/hooks/useAuth';
+import useUserStore from '@/store/userStore';
+import { useEffect, useState } from 'react';
+import useCategoryStore from '@/store/categoryStore';
+import { CreateTransaction } from '@/interfaces/Transaction';
 import InfoCard from '@/components/InfoCard';
 import { Description } from '@radix-ui/react-dialog';
-// import ChartDoughnut from '@/components/ChartDoughnut';
+import { TransactionList } from '@/components/TransactionsList';
 
 export default function Home() {
+  const { userId } = useAuth();
   const {
+    getUserData,
     user,
-    formatCurrency,
-    handleSubmit,
-    transactionError,
-    handleInputChange,
-    handleSelectChange,
-    handleDelete,
-    totalIncomes,
     totalExpenses,
-    newTransaction,
-    isDialogOpen,
-    setIsDialogOpen,
-    loading,
+    totalIncomes,
+    addTransaction,
+    deleteTransaction,
     error,
-    categories,
-  } = useHomeLogic();
+    loading,
+  } = useUserStore();
+  const { getCategories, categories } = useCategoryStore();
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+  const [newTransaction, setNewTransaction] = useState<CreateTransaction>({
+    description: '',
+    amount: 0,
+    typeOfTransaction: TYPE_OF_TRANSACTION_ENUM.Expense,
+    category: '',
+    user: user._id || '',
+  });
 
-  if (loading) return <p>Cargando...</p>;
-  if (error) return <p>{error}</p>;
-  if (!user) return <p>No se pudo cargar el usuario.</p>;
+  useEffect(() => {
+    if (userId) {
+      getUserData(userId);
+      getCategories();
+      setNewTransaction((prev) => ({ ...prev, ['user']: userId }));
+    }
+  }, [userId, getUserData, getCategories]);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    await addTransaction(newTransaction);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type } = e.target;
+    setNewTransaction((prev) => ({
+      ...prev,
+      [name]: type === 'number' ? parseFloat(value) : value,
+    }));
+  };
+
+  const handleSelectChange = (name: string, value: string) => {
+    setNewTransaction((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const formatCurrency = (amount: number) => `${amount.toFixed(2)} €`;
+
+  if (loading) return <h1>Loading...</h1>;
 
   return (
     <div className='container max-w-4xl mx-auto px-4 py-8 space-y-20'>
@@ -62,9 +93,7 @@ export default function Home() {
           isHighlighted={user.money < 30}
           highlightedClassName='bg-red-400'
         >
-          <div className='text-2xl font-bold'>
-            {formatCurrency(user.money)}
-          </div>
+          <div className='text-2xl font-bold'>{formatCurrency(user.money)}</div>
           {user.money < 30 && (
             <p className='text-white text-center text-sm'>¡Saldo bajo!</p>
           )}
@@ -126,16 +155,6 @@ export default function Home() {
                 </DialogHeader>
                 <form onSubmit={handleSubmit} className='space-y-4'>
                   <div>
-                    <Label htmlFor='title'>Título</Label>
-                    <Input
-                      id='title'
-                      name='title'
-                      value={newTransaction.title}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-                  <div>
                     <Label htmlFor='description'>Descripción</Label>
                     <Input
                       id='description'
@@ -185,7 +204,7 @@ export default function Home() {
                     <Select
                       required
                       name='category'
-                      value={newTransaction._id}
+                      value={newTransaction.category}
                       onValueChange={(value) =>
                         handleSelectChange('category', value)
                       }
@@ -202,9 +221,7 @@ export default function Home() {
                       </SelectContent>
                     </Select>
                   </div>
-                  {transactionError && (
-                    <p className='text-red-500'>{transactionError}</p>
-                  )}
+                  {error && <p className='text-red-500'>{error}</p>}
                   <Button type='submit'>Guardar Transacción</Button>
                 </form>
               </DialogContent>
@@ -213,24 +230,11 @@ export default function Home() {
           <CardContent className='pt-6 overflow-x-auto'>
             <TransactionList
               transactions={user.transactions}
-              handleDelete={handleDelete}
+              handleDelete={deleteTransaction}
               formatCurrency={formatCurrency}
             />
           </CardContent>
         </div>
-        {/* <div className='w-full md:w-2/3 lg:w-1/4 mx-auto'> 
-          <Card className='p-4'>
-            <CardHeader>
-              <CardTitle className='text-xl font-bold'>Resumen</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ChartDoughnut />
-              <div className='my-4'>
-                <p className=''>Balance total : <span className={`font-bold ${(totalIncomes - totalExpenses) < 0 ? 'text-red-500' : 'text-green-500'}`}>{formatCurrency(totalIncomes - totalExpenses)}</span></p>
-              </div>
-            </CardContent> 
-          </Card>
-        </div> */}
       </div>
     </div>
   );

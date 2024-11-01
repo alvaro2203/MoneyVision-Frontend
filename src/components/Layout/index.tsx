@@ -15,6 +15,7 @@ export function Layout() {
 
   const hideHeaderRoutes = ['/login', '/register'];
   const showHeader = !hideHeaderRoutes.includes(location.pathname);
+
   return (
     <div>
       {showHeader && (
