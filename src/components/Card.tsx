@@ -7,7 +7,13 @@ interface CardProps {
 }
 
 export const Card: FC<CardProps> = ({ children, className = '', ...props }) => (
-  <div className={cn('bg-white shadow-md rounded-lg', className)} {...props}>
+  <div
+    className={cn(
+      'bg-white max-w-sm rounded overflow-hidden shadow',
+      className
+    )}
+    {...props}
+  >
     {children}
   </div>
 );
@@ -17,7 +23,7 @@ export const CardHeader: FC<CardProps> = ({
   className = '',
   ...props
 }) => (
-  <div className={cn('p-4 border-b border-gray-200', className)} {...props}>
+  <div className={cn('p-4', className)} {...props}>
     {children}
   </div>
 );

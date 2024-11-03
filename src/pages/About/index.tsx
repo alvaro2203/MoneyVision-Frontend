@@ -1,5 +1,5 @@
 import { Input } from '@/components/Form';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/Card';
 import {
   Accordion,
   AccordionContent,

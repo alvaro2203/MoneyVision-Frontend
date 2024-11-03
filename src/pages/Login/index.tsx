@@ -1,6 +1,5 @@
-import { Label } from '@/components/Form';
+import { Label, Input } from '@/components/Form';
 import { useLoginLogic } from './logic';
-import { Input } from '@/components/ui/input';
 import { COMPANY_NAME } from '@/consts';
 
 export default function Login() {
