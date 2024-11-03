@@ -1,7 +1,6 @@
-import { COMPANY_NAME } from '../../consts';
-import { Input } from '../../components/Input';
-import { Label } from '../../components/Label';
+import { Input, Label } from '@/components/Form';
 import { useRegisterLogic } from './logic';
+import { COMPANY_NAME } from '@/consts';
 
 export default function Register() {
   const { formData, loading, error, handleChange, handleSubmit } =

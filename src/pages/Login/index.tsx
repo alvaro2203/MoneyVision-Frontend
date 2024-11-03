@@ -1,7 +1,7 @@
-import { COMPANY_NAME } from '../../consts';
-import { Label } from '../../components/Label';
-import { Input } from '../../components/Input';
+import { Label } from '@/components/Form';
 import { useLoginLogic } from './logic';
+import { Input } from '@/components/ui/input';
+import { COMPANY_NAME } from '@/consts';
 
 export default function Login() {
   const {

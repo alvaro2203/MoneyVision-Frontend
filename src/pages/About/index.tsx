@@ -1,4 +1,4 @@
-import { Input } from '@/components/ui/input';
+import { Input } from '@/components/Form';
 import { Card, CardContent } from '@/components/ui/card';
 import {
   Accordion,

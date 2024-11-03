@@ -1,6 +1,6 @@
 import { GetTransaction } from '@/interfaces/Transaction';
 import { format } from 'date-fns';
-import Button from '../button';
+import { Button } from '../Form';
 
 interface TransactionListProps {
   transactions: GetTransaction[];

@@ -1,5 +1,5 @@
-import { Input } from '@/components/ui/input';
-import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/Form';
+import { Card, CardContent } from '@/components/Card';
 import { Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { MainSection } from '@/components/MainSection';

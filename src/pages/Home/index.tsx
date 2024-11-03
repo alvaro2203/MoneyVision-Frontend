@@ -1,4 +1,3 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Dialog,
   DialogContent,
@@ -27,9 +26,8 @@ import { CreateTransaction } from '@/interfaces/Transaction';
 import InfoCard from '@/components/InfoCard';
 import ChartDoughnut from '@/components/ChartDoughnut';
 import { ArrowUpDown, BarChart3, CreditCard, DollarSign } from 'lucide-react';
-import Button from '@/components/button';
-import { Label } from '@/components/Label';
-import { Input } from '@/components/Input';
+import { Button, Label, Input } from '@/components/Form';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
 
 export default function Home() {
   const { userId } = useAuth();

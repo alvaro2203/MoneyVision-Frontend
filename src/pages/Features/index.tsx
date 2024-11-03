@@ -1,11 +1,11 @@
-import { Input } from '@/components/ui/input';
-import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/Form';
+import { Card, CardContent } from '@/components/Card';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/ui/accordion';
+} from '@/components/Accordion';
 import {
   Table,
   TableBody,

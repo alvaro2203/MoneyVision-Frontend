@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import useUserStore from '@/store/userStore';
 import { Doughnut } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -10,8 +12,6 @@ import {
   Legend,
   ArcElement,
 } from 'chart.js';
-import { useEffect } from 'react';
-import useUserStore from '@/store/userStore';
 
 ChartJS.register(
   CategoryScale,

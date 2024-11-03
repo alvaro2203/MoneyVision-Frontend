@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils';
 import { FC, ReactNode } from 'react';
 
 interface CardProps {
@@ -5,30 +6,58 @@ interface CardProps {
   className?: string;
 }
 
-export const Card: FC<CardProps> = ({ children, className = '' }) => (
-  <div className={`bg-white shadow-md rounded-lg ${className}`}>{children}</div>
+export const Card: FC<CardProps> = ({ children, className = '', ...props }) => (
+  <div className={cn('bg-white shadow-md rounded-lg', className)} {...props}>
+    {children}
+  </div>
 );
 
-interface CardHeaderProps {
-  children: ReactNode;
-}
-
-export const CardHeader: FC<CardHeaderProps> = ({ children }) => (
-  <div className='p-4 border-b border-gray-200'>{children}</div>
+export const CardHeader: FC<CardProps> = ({
+  children,
+  className = '',
+  ...props
+}) => (
+  <div className={cn('p-4 border-b border-gray-200', className)} {...props}>
+    {children}
+  </div>
 );
 
-interface CardTitleProps {
-  children: ReactNode;
-}
-
-export const CardTitle: FC<CardTitleProps> = ({ children }) => (
-  <h2 className='text-xl font-semibold'>{children}</h2>
+export const CardTitle: FC<CardProps> = ({
+  children,
+  className = '',
+  ...props
+}) => (
+  <h2 className={cn('text-xl font-semibold', className)} {...props}>
+    {children}
+  </h2>
 );
 
-interface CardContentProps {
-  children: ReactNode;
-}
+export const CardDescription: FC<CardProps> = ({
+  children,
+  className = '',
+  ...props
+}) => (
+  <p className={cn('text-sm text-muted-foreground', className)} {...props}>
+    {children}
+  </p>
+);
 
-export const CardContent: FC<CardContentProps> = ({ children }) => (
-  <div className='p-4'>{children}</div>
+export const CardContent: FC<CardProps> = ({
+  children,
+  className = '',
+  ...props
+}) => (
+  <div className={cn('p-4', className)} {...props}>
+    {children}
+  </div>
+);
+
+export const CardFooter: FC<CardProps> = ({
+  children,
+  className = '',
+  ...props
+}) => (
+  <div className={cn('flex items-center p-6 pt-0', className)} {...props}>
+    {children}
+  </div>
 );

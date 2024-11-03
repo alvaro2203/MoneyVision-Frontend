@@ -1,5 +1,4 @@
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Button, Input } from '@/components/Form';
 import { Card, CardContent } from '@/components/ui/card';
 import { BarChart3, PiggyBank, TrendingUp } from 'lucide-react';
 import { Link } from 'react-router-dom';

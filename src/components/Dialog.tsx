@@ -1,5 +1,5 @@
 import { FC, ReactNode, useEffect } from 'react';
-import Button from './button';
+import { Button } from './Form';
 
 interface DialogProps {
   isOpen: boolean;
