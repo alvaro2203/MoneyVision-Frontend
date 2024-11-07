@@ -1,30 +1,21 @@
-import { Route, Routes, useLocation } from 'react-router-dom';
-import Header from '../Header';
+import { Route, Routes } from 'react-router-dom';
 import Login from '@/pages/Login';
 import Register from '@/pages/Register';
 import LandingPage from '@/pages/LandingPage';
 import AboutPage from '@/pages/About';
 import TestimonialsPage from '@/pages/Testimonials';
 import FeaturesPage from '@/pages/Features';
-import PrivateRoute from '../PrivateRoute';
 import Home from '@/pages/Home';
 import CompoundInterestCalculator from '@/pages/CompoundInterest';
+import PrivateRoute from '../../components/PrivateRoute';
+import PublicLayout from '../PublicLayout';
+import PrivateLayout from '../PrivateLayout';
 
 export function Layout() {
-  const location = useLocation();
-
-  const hideHeaderRoutes = ['/login', '/register'];
-  const showHeader = !hideHeaderRoutes.includes(location.pathname);
-
   return (
-    <div>
-      {showHeader && (
-        <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
-          <Header />
-        </div>
-      )}
-
-      <Routes>
+    <Routes>
+      {/* Rutas públicas */}
+      <Route element={<PublicLayout />}>
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/' element={<LandingPage />} />
@@ -35,11 +26,14 @@ export function Layout() {
           path='/compound-interest'
           element={<CompoundInterestCalculator />}
         />
+      </Route>
 
-        <Route element={<PrivateRoute />}>
+      {/* Rutas privadas */}
+      <Route element={<PrivateRoute />}>
+        <Route element={<PrivateLayout />}>
           <Route path='/home' element={<Home />} />
         </Route>
-      </Routes>
-    </div>
+      </Route>
+    </Routes>
   );
 }

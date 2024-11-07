@@ -89,14 +89,14 @@ export default function Home() {
 
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 mb-8'>
         <InfoCard
-          title='Saldo Total'
+          title='Balance Total'
           icon={<DollarSign className='h-4 w-4 text-muted-foreground' />}
           isHighlighted={user.money < 30}
           highlightedClassName='bg-red-400'
         >
           <div className='text-2xl font-bold'>{formatCurrency(user.money)}</div>
           {user.money < 30 && (
-            <p className='text-white text-center text-sm'>¡Saldo bajo!</p>
+            <p className='text-white text-center text-sm'>Balance bajo!</p>
           )}
         </InfoCard>
 
