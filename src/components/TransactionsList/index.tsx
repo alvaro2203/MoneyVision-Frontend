@@ -42,10 +42,14 @@ export function TransactionList({
           <div className='text-right'>
             <p
               className={`text-sm font-medium ${
-                transaction.amount > 0 ? 'text-green-600' : 'text-red-600'
+                transaction.typeOfTransaction === TYPE_OF_TRANSACTION_INCOME
+                  ? 'text-green-600'
+                  : 'text-red-600'
               }`}
             >
-              {transaction.amount > 0 ? '+' : ''}
+              {transaction.typeOfTransaction === TYPE_OF_TRANSACTION_INCOME
+                ? '+'
+                : '-'}
               {formatCurrency(transaction.amount)}
             </p>
             <p className='text-xs text-muted-foreground'>
