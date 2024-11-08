@@ -1,6 +1,11 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowUpDown, BarChart3, CreditCard, DollarSign } from 'lucide-react';
+import {
+  ArrowDownRight,
+  ArrowUpRight,
+  BarChart3,
+  DollarSign,
+} from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -31,6 +36,7 @@ import InfoCard from '@/components/InfoCard';
 import { Description } from '@radix-ui/react-dialog';
 import { TransactionList } from '@/components/TransactionsList';
 import ChartDoughnut from '@/components/ChartDoughnut';
+import { formatCurrency } from '@/lib/utils';
 
 export default function Home() {
   const { userId } = useAuth();
@@ -79,37 +85,44 @@ export default function Home() {
     setNewTransaction((prev) => ({ ...prev, [name]: value }));
   };
 
-  const formatCurrency = (amount: number) => `${amount.toFixed(2)} €`;
-
   if (loading) return <h1>Loading...</h1>;
 
   return (
-    <div className='container max-w-4xl mx-auto px-4 py-8 space-y-20'>
+    <div className='container max-w-4xl mx-auto px-4 py-8 space-y-10'>
       <h1 className='text-3xl font-bold mb-8'>¡Bienvenido, {user.username}!</h1>
 
-      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 mb-8'>
+      <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
         <InfoCard
           title='Balance Total'
-          icon={<DollarSign className='h-4 w-4 text-muted-foreground' />}
+          icon={<DollarSign className='h-4 w-4 text-green-500' />}
           isHighlighted={user.money < 30}
           highlightedClassName='bg-red-400'
         >
           <div className='text-2xl font-bold'>{formatCurrency(user.money)}</div>
           {user.money < 30 && (
-            <p className='text-white text-center text-sm'>Balance bajo!</p>
+            <p className='text-xs text-muted-foreground'>Balance bajo!</p>
           )}
         </InfoCard>
 
         <InfoCard
-          title='Número de Transacciones'
-          icon={<BarChart3 className='h-4 w-4 text-muted-foreground' />}
+          title='Nº Transacciones'
+          icon={<BarChart3 className='h-4 w-4 text-red-500' />}
         >
           <div className='text-2xl font-bold'>{user.transactions.length}</div>
         </InfoCard>
 
         <InfoCard
-          title='Gastos Totales'
-          icon={<CreditCard className='h-4 w-4 text-muted-foreground' />}
+          title='Ingresos'
+          icon={<ArrowUpRight className='h-4 w-4 text-green-500' />}
+        >
+          <div className='text-2xl font-bold'>
+            {formatCurrency(totalIncomes)}
+          </div>
+        </InfoCard>
+
+        <InfoCard
+          title='Gastos'
+          icon={<ArrowDownRight className='h-4 w-4 text-red-500' />}
           isHighlighted={totalExpenses > totalIncomes}
           highlightedClassName='bg-red-400'
         >
@@ -117,19 +130,10 @@ export default function Home() {
             {formatCurrency(totalExpenses)}
           </div>
           {totalExpenses > totalIncomes && (
-            <p className='text-white text-center text-sm'>
+            <p className='text-xs text-muted-foreground'>
               ¡Gastos demasiado elevados!
             </p>
           )}
-        </InfoCard>
-
-        <InfoCard
-          title='Ingresos Totales'
-          icon={<ArrowUpDown className='h-4 w-4 text-muted-foreground' />}
-        >
-          <div className='text-2xl font-bold'>
-            {formatCurrency(totalIncomes)}
-          </div>
         </InfoCard>
       </div>
 
@@ -232,7 +236,6 @@ export default function Home() {
             <TransactionList
               transactions={user.transactions}
               handleDelete={deleteTransaction}
-              formatCurrency={formatCurrency}
             />
           </CardContent>
         </div>

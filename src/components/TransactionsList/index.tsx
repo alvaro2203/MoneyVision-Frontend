@@ -1,59 +1,69 @@
 import { GetTransaction } from '@/interfaces/Transaction';
 import { Button } from '../ui/button';
 import { format } from 'date-fns';
+import { Avatar, AvatarFallback } from '../ui/avatar';
+import { TYPE_OF_TRANSACTION_INCOME } from '@/consts';
+import { formatCurrency } from '@/lib/utils';
+import { Pencil, Trash2 } from 'lucide-react';
 
 interface TransactionListProps {
   transactions: GetTransaction[];
   handleDelete: (transactionId: string | undefined) => Promise<void>;
-  formatCurrency: (amount: number) => string;
 }
 
 export function TransactionList({
   transactions,
   handleDelete,
-  formatCurrency,
 }: TransactionListProps) {
   return (
     <div className='space-y-4'>
       {transactions.map((transaction) => (
         <div
           key={transaction._id}
-          className='flex flex-col md:flex-row justify-between items-start md:items-center p-4 bg-gray-200 rounded-lg space-y-4 md:space-y-0'
+          className='flex items-center gap-4 md:flex-row justify-between md:items-center'
         >
-          <div className='text-left space-y-1'>
-            <p className='font-semibold text-gray-800'>
-              {transaction.description}
-              <span className='text-sm text-gray-500'>
-                {' '}
-                - {transaction.category.name || 'Sin categoria'}
-              </span>
+          <Avatar>
+            <AvatarFallback
+              className={
+                transaction.typeOfTransaction === TYPE_OF_TRANSACTION_INCOME
+                  ? 'bg-green-200 text-green-800'
+                  : 'bg-red-200 text-red-800'
+              }
+            >
+              {transaction.category.name.substring(0, 2).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+          <div className='flex-1'>
+            <p className='text-sm font-medium'>{transaction.description}</p>
+            <p className='text-xs text-muted-foreground'>
+              {transaction.category.name}
             </p>
-            {transaction.createdAt && (
-              <p className='text-xs text-gray-500'>
-                {format(new Date(transaction.createdAt), 'dd/MM/yyyy')}
-              </p>
-            )}
           </div>
-          <div className='flex flex-col md:flex-row md:items-center md:space-x-4 w-full md:w-auto'>
+          <div className='text-right'>
             <p
-              className={`font-bold ${
-                transaction.typeOfTransaction === 'Income'
-                  ? 'text-emerald-600'
-                  : 'text-red-500'
+              className={`text-sm font-medium ${
+                transaction.amount > 0 ? 'text-green-600' : 'text-red-600'
               }`}
             >
+              {transaction.amount > 0 ? '+' : ''}
               {formatCurrency(transaction.amount)}
             </p>
+            <p className='text-xs text-muted-foreground'>
+              {format(new Date(transaction.createdAt), 'dd/MM/yyyy')}
+            </p>
+          </div>
+
+          <div className='flex flex-col md:flex-row md:items-center md:space-x-4 w-full md:w-auto'>
             <div className='flex space-x-2 w-full md:w-auto'>
               <Button variant='outline' className='w-full md:w-auto'>
-                Editar
+                <Pencil size={18} />
               </Button>
               <Button
                 className='w-full md:w-auto'
                 variant='destructive'
                 onClick={() => handleDelete(transaction._id)}
               >
-                Borrar
+                <Trash2 size={18} />
               </Button>
             </div>
           </div>
