@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { cn } from '@/lib/utils';
 
 interface InfoCardProps {
   title: string;
@@ -17,9 +18,9 @@ const InfoCard = ({
   highlightedClassName = '',
 }: InfoCardProps) => {
   return (
-    <Card className={`${isHighlighted ? highlightedClassName : ''}`}>
+    <Card className={cn('text-left', isHighlighted && highlightedClassName)}>
       <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-        <CardTitle>{title}</CardTitle>
+        <CardTitle className='text-sm font-medium'>{title}</CardTitle>
         {icon}
       </CardHeader>
       <CardContent>{children}</CardContent>

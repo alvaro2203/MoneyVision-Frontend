@@ -1,5 +1,5 @@
+import api from '@/api/axios';
 import { useState } from 'react';
-import api from '../../api/axios';
 import { useNavigate } from 'react-router-dom';
 
 export const useLoginLogic = () => {
@@ -36,7 +36,7 @@ export const useLoginLogic = () => {
       const response = await api.post('/login', { email, password });
 
       response.status === 200
-        ? navigate('/home')
+        ? navigate('/dashboard')
         : setError('Error de autenticación.' + response.data.message);
     } catch (error) {
       setError('Error de autenticación.');
