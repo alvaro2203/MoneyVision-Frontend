@@ -18,5 +18,5 @@ export interface GetTransaction {
   typeOfTransaction: TYPE_OF_TRANSACTION_ENUM;
   user: string;
   category: Category;
-  createdAt?: string | number | Date;
+  createdAt: string | number | Date;
 }

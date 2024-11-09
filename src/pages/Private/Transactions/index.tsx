@@ -1,11 +1,27 @@
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useEffect, useState } from 'react';
 import {
-  ArrowDownRight,
-  ArrowUpRight,
-  BarChart3,
-  DollarSign,
-} from 'lucide-react';
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {
   Dialog,
   DialogContent,
@@ -16,42 +32,36 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import {
   TYPE_OF_TRANSACTION_ENUM,
   TYPE_OF_TRANSACTION_EXPENSE,
   TYPE_OF_TRANSACTION_INCOME,
 } from '@/consts';
-import useAuth from '@/hooks/useAuth';
-import useUserStore from '@/store/userStore';
-import { useEffect, useState } from 'react';
-import useCategoryStore from '@/store/categoryStore';
-import { CreateTransaction } from '@/interfaces/Transaction';
-import InfoCard from '@/components/InfoCard';
+import { Pencil, Plus, Search, Trash2 } from 'lucide-react';
 import { Description } from '@radix-ui/react-dialog';
-import { TransactionList } from '@/components/TransactionsList';
-import ChartDoughnut from '@/components/ChartDoughnut';
-import { formatCurrency } from '@/lib/utils';
+import useUserStore from '@/store/userStore';
+import useCategoryStore from '@/store/categoryStore';
+import { cn } from '@/lib/utils';
+import { CreateTransaction } from '@/interfaces/Transaction';
+import useAuth from '@/hooks/useAuth';
 
-export default function Home() {
+export function Transactions() {
   const { userId } = useAuth();
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterCategory, setFilterCategory] = useState('all');
+  const {
+    getCategories,
+    categories,
+    loading: loadingCategories,
+  } = useCategoryStore();
   const {
     getUserData,
     user,
-    totalExpenses,
-    totalIncomes,
+    loading,
     addTransaction,
     deleteTransaction,
     error,
-    loading,
   } = useUserStore();
-  const { getCategories, categories } = useCategoryStore();
-  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [newTransaction, setNewTransaction] = useState<CreateTransaction>({
     description: '',
     amount: 0,
@@ -68,9 +78,12 @@ export default function Home() {
     }
   }, [userId, getUserData, getCategories]);
 
+  if (loading || loadingCategories) return <h1>Loading...</h1>;
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await addTransaction(newTransaction);
+    setIsDialogOpen(false);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -85,70 +98,21 @@ export default function Home() {
     setNewTransaction((prev) => ({ ...prev, [name]: value }));
   };
 
-  if (loading) return <h1>Loading...</h1>;
-
   return (
     <div className='container max-w-4xl mx-auto px-4 py-8 space-y-10'>
-      <h1 className='text-3xl font-bold mb-8'>¡Bienvenido, {user.username}!</h1>
-
-      <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
-        <InfoCard
-          title='Balance Total'
-          icon={<DollarSign className='h-4 w-4 text-green-500' />}
-          isHighlighted={user.money < 30}
-          highlightedClassName='bg-red-400'
-        >
-          <div className='text-2xl font-bold'>{formatCurrency(user.money)}</div>
-          {user.money < 30 && (
-            <p className='text-xs text-muted-foreground'>Balance bajo!</p>
-          )}
-        </InfoCard>
-
-        <InfoCard
-          title='Nº Transacciones'
-          icon={<BarChart3 className='h-4 w-4 text-red-500' />}
-        >
-          <div className='text-2xl font-bold'>{user.transactions.length}</div>
-        </InfoCard>
-
-        <InfoCard
-          title='Ingresos'
-          icon={<ArrowUpRight className='h-4 w-4 text-green-500' />}
-        >
-          <div className='text-2xl font-bold'>
-            {formatCurrency(totalIncomes)}
-          </div>
-        </InfoCard>
-
-        <InfoCard
-          title='Gastos'
-          icon={<ArrowDownRight className='h-4 w-4 text-red-500' />}
-          isHighlighted={totalExpenses > totalIncomes}
-          highlightedClassName='bg-red-400'
-        >
-          <div className='text-2xl font-bold'>
-            {formatCurrency(totalExpenses)}
-          </div>
-          {totalExpenses > totalIncomes && (
-            <p className='text-xs text-muted-foreground'>
-              ¡Gastos demasiado elevados!
-            </p>
-          )}
-        </InfoCard>
-      </div>
-
-      <div className='flex flex-col md:flex-row gap-6'>
-        <div className='flex-1'>
-          <div className='flex flex-col md:flex-row justify-between items-start md:items-center p-6'>
-            <CardHeader className='p-0'>
-              <CardTitle className='text-2xl font-bold'>
-                Transacciones Recientes
-              </CardTitle>
-            </CardHeader>
-
+      <Card>
+        <CardHeader>
+          <div className='flex items-center justify-between'>
+            <div className='text-left'>
+              <CardTitle>Transacciones</CardTitle>
+              <CardDescription>Gestiona tus ingresos y gastos</CardDescription>
+            </div>
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>
-                <Button className='w-full md:w-auto'>Añadir Transacción</Button>
+                <Button>
+                  <Plus className='mr-2 h-4 w-4' />
+                  Nueva Transacción
+                </Button>
               </DialogTrigger>
               <DialogContent className='max-w-full sm:max-w-md'>
                 <Description>
@@ -232,38 +196,86 @@ export default function Home() {
               </DialogContent>
             </Dialog>
           </div>
-          <CardContent className='pt-6 overflow-x-auto'>
-            <TransactionList
-              transactions={user.transactions}
-              handleDelete={deleteTransaction}
-            />
-          </CardContent>
-        </div>
-        <div className='w-full md:w-2/3 lg:w-1/4 mx-auto'>
-          <Card className='p-4'>
-            <CardHeader>
-              <CardTitle className='text-xl font-bold'>Resumen</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ChartDoughnut />
-              <div className='my-4'>
-                <p className=''>
-                  Balance total :{' '}
-                  <span
-                    className={`font-bold ${
-                      totalIncomes - totalExpenses < 0
-                        ? 'text-red-500'
-                        : 'text-green-500'
-                    }`}
-                  >
-                    {formatCurrency(totalIncomes - totalExpenses)}
-                  </span>
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+        </CardHeader>
+        <CardContent>
+          <div className='flex items-center gap-4 mb-4'>
+            <div className='relative flex-1'>
+              <Search className='absolute left-2 top-2.5 h-4 w-4 text-muted-foreground' />
+              <Input
+                placeholder='Buscar transacciones...'
+                className='pl-8'
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+            <Select value={filterCategory} onValueChange={setFilterCategory}>
+              <SelectTrigger className='w-[180px]'>
+                <SelectValue placeholder='Categoría' />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value='all'>Todas</SelectItem>
+                {categories.map((category) => (
+                  <SelectItem key={category._id} value={category._id}>
+                    {category.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className='rounded-md border'>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Fecha</TableHead>
+                  <TableHead>Descripción</TableHead>
+                  <TableHead>Categoría</TableHead>
+                  <TableHead className='text-right'>Cantidad</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody className='text-left'>
+                {user.transactions.map((transaction) => (
+                  <TableRow key={transaction._id}>
+                    <TableCell>
+                      {new Date(transaction.createdAt).toLocaleDateString()}
+                    </TableCell>
+                    <TableCell>{transaction.description}</TableCell>
+                    <TableCell>{transaction.category.name}</TableCell>
+                    <TableCell
+                      className={cn(
+                        'text-right',
+                        transaction.typeOfTransaction ===
+                          TYPE_OF_TRANSACTION_INCOME
+                          ? 'text-green-600'
+                          : 'text-red-600'
+                      )}
+                    >
+                      {transaction.typeOfTransaction ===
+                      TYPE_OF_TRANSACTION_INCOME
+                        ? '+'
+                        : '-'}
+                      {transaction.amount.toFixed(2)} €
+                    </TableCell>
+                    <TableCell>
+                      <div className='flex space-x-2 w-full md:w-auto justify-end'>
+                        <Button variant='outline' className='w-full md:w-auto'>
+                          <Pencil size={18} />
+                        </Button>
+                        <Button
+                          className='w-full md:w-auto'
+                          variant='destructive'
+                          onClick={() => deleteTransaction(transaction._id)}
+                        >
+                          <Trash2 size={18} />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

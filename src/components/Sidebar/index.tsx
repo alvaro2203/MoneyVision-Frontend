@@ -63,7 +63,7 @@ const Sidebar: React.FC = () => {
             <span>Transacciones</span>
           </NavLink>
           <NavLink
-            to='/investments'
+            to='#'
             className='flex items-center gap-2 w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg'
             aria-label='Inversiones'
           >
