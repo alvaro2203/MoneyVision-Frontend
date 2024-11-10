@@ -56,10 +56,16 @@ const useUserStore = create<UserState>((set, get) => ({
         loading: false,
         error: null,
         totalIncomes: userData.transactions
-          .filter((transaction) => transaction.typeOfTransaction === 'Income')
+          .filter(
+            (transaction) =>
+              transaction.typeOfTransaction === TYPE_OF_TRANSACTION_ENUM.Income
+          )
           .reduce((total, transaction) => total + transaction.amount, 0),
         totalExpenses: userData.transactions
-          .filter((transaction) => transaction.typeOfTransaction === 'Expense')
+          .filter(
+            (transaction) =>
+              transaction.typeOfTransaction === TYPE_OF_TRANSACTION_ENUM.Expense
+          )
           .reduce((total, transaction) => total + transaction.amount, 0),
       });
     } catch (error) {
@@ -98,12 +104,14 @@ const useUserStore = create<UserState>((set, get) => ({
       set({
         totalIncomes: get()
           .user.transactions.filter(
-            (transaction) => transaction.typeOfTransaction === 'Income'
+            (transaction) =>
+              transaction.typeOfTransaction === TYPE_OF_TRANSACTION_ENUM.Income
           )
           .reduce((total, transaction) => total + transaction.amount, 0),
         totalExpenses: get()
           .user.transactions.filter(
-            (transaction) => transaction.typeOfTransaction === 'Expense'
+            (transaction) =>
+              transaction.typeOfTransaction === TYPE_OF_TRANSACTION_ENUM.Expense
           )
           .reduce((total, transaction) => total + transaction.amount, 0),
       });
@@ -133,12 +141,14 @@ const useUserStore = create<UserState>((set, get) => ({
       set({
         totalIncomes: get()
           .user.transactions.filter(
-            (transaction) => transaction.typeOfTransaction === 'Income'
+            (transaction) =>
+              transaction.typeOfTransaction === TYPE_OF_TRANSACTION_ENUM.Income
           )
           .reduce((total, transaction) => total + transaction.amount, 0),
         totalExpenses: get()
           .user.transactions.filter(
-            (transaction) => transaction.typeOfTransaction === 'Expense'
+            (transaction) =>
+              transaction.typeOfTransaction === TYPE_OF_TRANSACTION_ENUM.Expense
           )
           .reduce((total, transaction) => total + transaction.amount, 0),
       });

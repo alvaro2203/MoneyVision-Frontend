@@ -1,15 +1,15 @@
-// src/components/Sidebar.tsx
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   LayoutDashboard,
   ArrowRightLeft,
-  LineChart,
+  // LineChart,
   LogOut,
   Sun,
   Moon,
   Menu,
   X,
+  Tags,
 } from 'lucide-react';
 import { Button } from '../ui/button';
 import useDarkMode from '@/hooks/useDarkMode';
@@ -62,13 +62,22 @@ const Sidebar: React.FC = () => {
             <ArrowRightLeft size={20} />
             <span>Transacciones</span>
           </NavLink>
-          <NavLink
+          {/* <NavLink
             to='#'
             className='flex items-center gap-2 w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg'
             aria-label='Inversiones'
           >
             <LineChart size={20} />
             <span>Inversiones</span>
+          </NavLink> */}
+          <NavLink
+            to='/categories'
+            className={
+              'flex items-center gap-2 w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg'
+            }
+          >
+            <Tags size={20} />
+            Categorías
           </NavLink>
         </nav>
 

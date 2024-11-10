@@ -6,29 +6,14 @@ import {
   DollarSign,
 } from 'lucide-react';
 
-import useAuth from '@/hooks/useAuth';
 import useUserStore from '@/store/userStore';
-import { useEffect } from 'react';
-import useCategoryStore from '@/store/categoryStore';
 import InfoCard from '@/components/InfoCard';
 import { RecentTransactions } from '@/components/RecentTransactions';
 import ChartDoughnut from '@/components/ChartDoughnut';
 import { cn, formatCurrency } from '@/lib/utils';
 
 export default function Dashboard() {
-  const { userId } = useAuth();
-  const { getUserData, user, totalExpenses, totalIncomes, loading } =
-    useUserStore();
-  const { getCategories, loading: loadingCategories } = useCategoryStore();
-
-  useEffect(() => {
-    if (userId) {
-      getUserData(userId);
-      getCategories();
-    }
-  }, [userId, getUserData, getCategories]);
-
-  if (loading || loadingCategories) return <h1>Loading...</h1>;
+  const { user, totalExpenses, totalIncomes } = useUserStore();
 
   return (
     <div className='container max-w-4xl mx-auto px-4 py-8 space-y-10'>

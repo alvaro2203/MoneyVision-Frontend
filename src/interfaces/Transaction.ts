@@ -1,5 +1,5 @@
 import { TYPE_OF_TRANSACTION_ENUM } from '../consts';
-import { Category } from './Category';
+import { GetCategory } from './Category';
 
 export interface CreateTransaction {
   _id?: string;
@@ -17,6 +17,6 @@ export interface GetTransaction {
   amount: number;
   typeOfTransaction: TYPE_OF_TRANSACTION_ENUM;
   user: string;
-  category: Category;
+  category: GetCategory;
   createdAt: string | number | Date;
 }
