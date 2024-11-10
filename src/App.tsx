@@ -12,6 +12,7 @@ import Dashboard from '@/pages/Private/Dashboard';
 import Login from './pages/Public/Login';
 import Register from './pages/Public/Register';
 import { Transactions } from './pages/Private/Transactions';
+import { Categories } from './pages/Private/Categories';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <Route element={<PrivateLayout />}>
             <Route path='/Dashboard' element={<Dashboard />} />
             <Route path='/Transactions' element={<Transactions />} />
+            <Route path='/Categories' element={<Categories />} />
           </Route>
         </Route>
       </Routes>

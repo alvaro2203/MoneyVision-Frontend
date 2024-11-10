@@ -2,18 +2,18 @@
 import { create } from 'zustand';
 import { AxiosError } from 'axios';
 import api from '@/api/axios';
-import { Category } from '@/interfaces/Category';
+import { CreateCategory, GetCategory } from '@/interfaces/Category';
 import { ApiError } from '@/interfaces/AuthErrorResponse';
 
 interface CategoryState {
-  categories: Category[];
+  categories: GetCategory[];
   loading: boolean;
   error: string | null;
   getCategories: () => Promise<void>;
-  addCategory: (newCategory: Category) => Promise<void>;
+  addCategory: (newCategory: CreateCategory) => Promise<void>;
   updateCategory: (
     categoryId: string,
-    updatedData: Partial<Category>
+    updatedData: Partial<CreateCategory>
   ) => Promise<void>;
   deleteCategory: (categoryId: string) => Promise<void>;
 }
@@ -27,7 +27,7 @@ const useCategoryStore = create<CategoryState>((set) => ({
     set({ loading: true, error: null });
 
     try {
-      const response = await api.get<Category[]>('/api/categories');
+      const response = await api.get<GetCategory[]>('/api/categories');
       set({ categories: response.data, loading: false });
     } catch (error) {
       const axiosError = error as AxiosError<ApiError>;
@@ -39,11 +39,14 @@ const useCategoryStore = create<CategoryState>((set) => ({
     }
   },
 
-  addCategory: async (newCategory) => {
+  addCategory: async (newCategory: CreateCategory) => {
     set({ loading: true, error: null });
 
     try {
-      const response = await api.post<Category>('/api/categories', newCategory);
+      const response = await api.post<GetCategory>(
+        '/api/categories',
+        newCategory
+      );
       set((state) => ({
         categories: [...state.categories, response.data],
         loading: false,
@@ -58,11 +61,14 @@ const useCategoryStore = create<CategoryState>((set) => ({
     }
   },
 
-  updateCategory: async (categoryId, updatedData) => {
+  updateCategory: async (
+    categoryId: string,
+    updatedData: Partial<CreateCategory>
+  ) => {
     set({ loading: true, error: null });
 
     try {
-      const response = await api.put<Category>(
+      const response = await api.put<GetCategory>(
         `/api/categories/${categoryId}`,
         updatedData
       );

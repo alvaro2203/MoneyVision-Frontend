@@ -1,7 +1,7 @@
 import { GetTransaction } from '@/interfaces/Transaction';
 import { format } from 'date-fns';
 import { Avatar, AvatarFallback } from '../ui/avatar';
-import { TYPE_OF_TRANSACTION_INCOME } from '@/consts';
+import { TYPE_OF_TRANSACTION_ENUM } from '@/consts';
 import { formatCurrency } from '@/lib/utils';
 import { ScrollArea } from '../ui/scroll-area';
 
@@ -18,7 +18,8 @@ export function RecentTransactions({ transactions }: TransactionListProps) {
             <Avatar>
               <AvatarFallback
                 className={
-                  transaction.typeOfTransaction === TYPE_OF_TRANSACTION_INCOME
+                  transaction.typeOfTransaction ===
+                  TYPE_OF_TRANSACTION_ENUM.Income
                     ? 'bg-green-200 text-green-800'
                     : 'bg-red-200 text-red-800'
                 }
@@ -35,12 +36,14 @@ export function RecentTransactions({ transactions }: TransactionListProps) {
             <div className='text-right'>
               <p
                 className={`text-sm font-medium ${
-                  transaction.typeOfTransaction === TYPE_OF_TRANSACTION_INCOME
+                  transaction.typeOfTransaction ===
+                  TYPE_OF_TRANSACTION_ENUM.Income
                     ? 'text-green-600'
                     : 'text-red-600'
                 }`}
               >
-                {transaction.typeOfTransaction === TYPE_OF_TRANSACTION_INCOME
+                {transaction.typeOfTransaction ===
+                TYPE_OF_TRANSACTION_ENUM.Income
                   ? '+'
                   : '-'}
                 {formatCurrency(transaction.amount)}

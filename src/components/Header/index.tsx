@@ -18,12 +18,6 @@ export default function Header() {
       <nav className='hidden md:flex gap-4 sm:gap-6'>
         <Link
           className='text-sm font-medium hover:underline underline-offset-4'
-          to='/home'
-        >
-          Panel de usuario
-        </Link>
-        <Link
-          className='text-sm font-medium hover:underline underline-offset-4'
           to='/compound-interest'
         >
           Calculadora interés
@@ -60,10 +54,10 @@ export default function Header() {
           <nav className='flex flex-col p-4'>
             <Link
               className='text-sm font-medium py-2 hover:underline underline-offset-4'
-              to='/home'
+              to='/compound-interest'
               onClick={toggleMenu}
             >
-              Panel de usuario
+              Calculadora interés
             </Link>
             <Link
               className='text-sm font-medium py-2 hover:underline underline-offset-4'
@@ -78,6 +72,13 @@ export default function Header() {
               onClick={toggleMenu}
             >
               Testimonios
+            </Link>
+            <Link
+              className='text-sm font-medium py-2 hover:underline underline-offset-4'
+              to='/about'
+              onClick={toggleMenu}
+            >
+              Sobre nosotros
             </Link>
           </nav>
         </div>
